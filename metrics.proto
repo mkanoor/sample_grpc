@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package metrics;
+
+// Interface exported by the server.
+service Collector {
+  // A Bidirectional streaming RPC.
+  //
+  // Accepts a stream of Worker Items sent while run a collection
+  // Send back the results
+  rpc StartWork(stream VM) returns (stream Status) {}
+}
+
+message VM {
+  string ems_ref = 1;
+  string miq_id  = 2;
+}
+
+message Status {
+  VM     current    = 1;
+  string status     = 2;
+  int32  error_code = 3;
+}
